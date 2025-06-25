@@ -1,3 +1,12 @@
+/* General layout */
+body {
+  background: #f6f8fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -34,5 +43,85 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.spilit-hook-function {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(60, 72, 88, 0.08);
+  margin: 24px auto;
+  max-width: 600px;
+  padding: 24px 20px;
+  border-left: 6px solid #4f46e5;
+  transition: box-shadow 0.2s;
+}
+
+.spilit-hook-function:hover {
+  box-shadow: 0 4px 16px rgba(60, 72, 88, 0.15);
+}
+
+.spilit-hook-function p {
+  margin: 0 0 12px 0;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.spilit-hook-function > p:first-child {
+  font-weight: 600;
+  color: #4f46e5;
+  margin-bottom: 10px;
+}
+
+button {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  margin: 8px 8px 0 0;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.18s;
+  box-shadow: 0 1px 3px rgba(60, 72, 88, 0.07);
+}
+
+button:hover,
+button:focus {
+  background: #3730a3;
+  outline: none;
+}
+
+input[type="text"] {
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  padding: 7px 12px;
+  font-size: 1rem;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  transition: border 0.18s;
+}
+
+input[type="text"]:focus {
+  border: 1.5px solid #4f46e5;
+  outline: none;
+}
+
+.ExpensiveCalculation {
+  color: #2563eb;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+  .spilit-hook-function {
+    max-width: 98vw;
+    padding: 16px 6vw;
+    font-size: 0.98rem;
+  }
+  button {
+    width: 100%;
+    margin: 8px 0 0 0;
+    font-size: 0.98rem;
   }
 }
