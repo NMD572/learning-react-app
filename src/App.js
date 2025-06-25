@@ -2,6 +2,35 @@ import logo from "./logo.svg";
 import "./App.css";
 import React, { useState, useEffect, useMemo, useCallback, memo } from "react";
 
+const Button = memo(({ onClick, children }) => {
+  console.log("Button rendered");
+  return <button onClick={onClick}>{children}</button>;
+});
+
+// Start: useMemo
+function ExpensiveCalculation({ num }) {
+  // const [num, setNum] = useState(0);
+
+  const computedResult = useMemo(() => {
+    console.log("Calculating expensive result (useMemo)...");
+    let result = 0;
+    for (let i = 0; i < 100000000; i++) {
+      // Một phép tính rất tốn kém
+      result += i;
+    }
+    return result + num;
+  }, [num]); // Phép tính chỉ chạy lại khi 'num' thay đổi
+
+  return (
+    // <div>
+    //   <p>Number: {num}</p>
+    //   <button onClick={() => setNum(num + 1)}>Increment Number</button>
+    <p>Expensive Result: {computedResult}</p>
+    // </div>
+  );
+}
+// End: useMemo
+
 function App() {
   // Start: useState
   const [count, setCount] = useState(0); // Khởi tạo count = 0
@@ -19,37 +48,7 @@ function App() {
   }, [count]); // Effect này sẽ chạy lại mỗi khi 'count' thay đổi
   // End: useEffect
 
-  // Start: useMemo
-
-  function ExpensiveCalculation({ num }) {
-    // const [num, setNum] = useState(0);
-
-    const computedResult = useMemo(() => {
-      console.log("Calculating expensive result (useMemo)...");
-      let result = 0;
-      for (let i = 0; i < 100000000; i++) {
-        // Một phép tính rất tốn kém
-        result += i;
-      }
-      return result + num;
-    }, [num]); // Phép tính chỉ chạy lại khi 'num' thay đổi
-
-    return (
-      // <div>
-      //   <p>Number: {num}</p>
-      //   <button onClick={() => setNum(num + 1)}>Increment Number</button>
-      <p>Expensive Result: {computedResult}</p>
-      // </div>
-    );
-  }
-  // End: useMemo
-
   // Start: useCallback
-  const Button = memo(({ onClick, children }) => {
-    console.log("Button rendered");
-    return <button onClick={onClick}>{children}</button>;
-  });
-
   const [currentValue, setCurrentValue] = useState(0);
   const [anotherState, setAnotherState] = useState(0);
 
@@ -70,7 +69,8 @@ function App() {
         <p>
           useState: Cung cấp state (trạng thái) cho function component. State là
           dữ liệu mà khi thay đổi, sẽ làm cho component render lại (cập nhật
-          giao diện).
+          giao diện). useState sẽ update function component hiện tại và các
+          function component con được viết bên trong nó.
         </p>
         <p>You clicked {count} times</p>
         <button onClick={() => setCount(count + 1)}>Update by useState</button>
