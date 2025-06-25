@@ -1,6 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React, { useState, useEffect, useMemo, useCallback, memo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+  memo,
+} from "react";
 
 const Button = memo(({ onClick, children }) => {
   console.log("Button rendered");
@@ -30,6 +37,49 @@ function ExpensiveCalculation({ num }) {
   );
 }
 // End: useMemo
+
+// Start: useRef
+function TextInputWithFocusButton() {
+  const inputRef = useRef(null);
+
+  const handleClick = () => {
+    inputRef.current.focus(); // Tập trung vào input
+  };
+
+  return (
+    <div>
+      <input type="text" ref={inputRef} /> {/* Gán ref vào phần tử DOM */}
+      <button onClick={handleClick}>Focus the input</button>
+    </div>
+  );
+}
+
+function Timer() {
+  const [count, setCount] = useState(0);
+  const intervalRef = useRef(null); // useRef để lưu trữ ID của setInterval
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setCount((prevCount) => prevCount + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalRef.current); // Dọn dẹp timer
+    };
+  }, []); // Chạy một lần duy nhất khi mount
+
+  const stopTimer = () => {
+    clearInterval(intervalRef.current);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={stopTimer}>Stop Timer</button>
+    </div>
+  );
+}
+// End: useRef
 
 function App() {
   // Start: useState
@@ -106,9 +156,30 @@ function App() {
         <p>Another State: {anotherState}</p>
         <Button onClick={handleIncrement}>Increment Current Value</Button>
         <Button onClick={handleAnotherAction}>Increment Another State</Button>
+        {/* khi bạn nhấp vào "Parent re-render trigger" (làm Counter re-render), Button vẫn sẽ không bị re-render không cần thiết vì handleIncrement và handleAnotherAction vẫn giữ nguyên tham chiếu trừ khi dependencies của chúng thay đổi. */}
         <button onClick={() => console.log("Parent re-rendered")}>
           Parent re-render trigger
         </button>
+      </div>
+      <div className="spilit-hook-function">
+        <p>
+          useRef: Truy cập trực tiếp vào một phần tử DOM (ví dụ: để lấy giá trị
+          của input, focus vào một trường).<br></br>
+          Lưu trữ một giá trị có thể thay đổi giữa các lần render của component
+          mà không làm component re-render khi giá trị đó thay đổi. Đây là điểm
+          khác biệt chính so với useState.
+        </p>
+        <div>
+          <p>Cách sử dụng với DOM: Focus Input</p>
+          <TextInputWithFocusButton />
+        </div>
+        <div>
+          <p>
+            Cách sử dụng để lưu trữ giá trị không gây re-render: Lưu trữ 1 biến
+            thay đổi nhiều lần nhưng không gây re-render
+          </p>
+          <Timer />
+        </div>
       </div>
     </div>
   );
