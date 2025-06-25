@@ -91,9 +91,11 @@ function App() {
     // Effect: Cập nhật tiêu đề trang
     document.title = `You clicked ${count} times`;
 
-    // Cleanup: Chạy khi component unmount hoặc effect chạy lại
+    console.log("Ordered 2: Call effect function");
+    // Cleanup: Chạy khi component unmount hoặc trước khi effect chạy lại
     return () => {
       console.log("Cleanup for count:", count);
+      console.log("Ordered 1: Call retrun function");
     };
   }, [count]); // Effect này sẽ chạy lại mỗi khi 'count' thay đổi
   // End: useEffect
