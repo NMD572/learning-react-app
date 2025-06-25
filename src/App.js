@@ -10,7 +10,7 @@ import React, {
 } from "react";
 
 const Button = memo(({ onClick, children }) => {
-  console.log("Button rendered");
+  alert("Button " + children + " rendered");
   return <button onClick={onClick}>{children}</button>;
 });
 
@@ -19,7 +19,7 @@ function ExpensiveCalculation({ num }) {
   // const [num, setNum] = useState(0);
 
   const computedResult = useMemo(() => {
-    console.log("Calculating expensive result (useMemo)...");
+    alert("Calculating expensive result (useMemo)...");
     let result = 0;
     for (let i = 0; i < 100000000; i++) {
       // Một phép tính rất tốn kém
@@ -150,14 +150,16 @@ function App() {
           callback. Nó trả về một phiên bản memoized của hàm đó chỉ thay đổi khi
           một trong các dependencies của nó thay đổi. Điều này đặc biệt hữu ích
           khi truyền các hàm xuống component con để ngăn chặn việc re-render
-          không cần thiết của component con (ví dụ: với React.memo).
+          không cần thiết của component con (ví dụ: với React.memo).<br></br>
+          Chỉ nên xài với các hàm được sử dụng thường xuyên hoặc render thường
+          xuyên.
         </p>
         <p>Current value: {currentValue}</p>
         <p>Another State: {anotherState}</p>
         <Button onClick={handleIncrement}>Increment Current Value</Button>
         <Button onClick={handleAnotherAction}>Increment Another State</Button>
         {/* khi bạn nhấp vào "Parent re-render trigger" (làm Counter re-render), Button vẫn sẽ không bị re-render không cần thiết vì handleIncrement và handleAnotherAction vẫn giữ nguyên tham chiếu trừ khi dependencies của chúng thay đổi. */}
-        <button onClick={() => console.log("Parent re-rendered")}>
+        <button onClick={() => alert("Parent re-rendered")}>
           Parent re-render trigger
         </button>
       </div>
